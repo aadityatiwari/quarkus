@@ -1,8 +1,6 @@
 package io.quarkus.amazon.lambda.deployment;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -87,7 +85,8 @@ public final class AmazonLambdaProcessor {
         List<AmazonLambdaBuildItem> ret = new ArrayList<>();
         for (AmazonLambdaClassNameBuildItem i : items) {
             ret.add(new AmazonLambdaBuildItem(i.getClassName(),
-                    template.discoverParameterTypes((Class<? extends RequestHandler>) context.classProxy(i.getClassName()))));
+                    template.discoverParameterTypes(
+                            (Class<? extends RequestHandler<?, ?>>) context.classProxy(i.getClassName()))));
         }
         return ret;
     }
@@ -121,7 +120,8 @@ public final class AmazonLambdaProcessor {
         }
         AmazonLambdaBuildItem lambda = lambdas.get(0);
 
-        template.start((Class<? extends RequestHandler>) context.classProxy(lambda.getHandlerClass()), shutdownContextBuildItem,
+        template.start((Class<? extends RequestHandler<?, ?>>) context.classProxy(lambda.getHandlerClass()),
+                shutdownContextBuildItem,
                 lambda.getTargetType(), beanContainerBuildItem.getValue());
 
     }

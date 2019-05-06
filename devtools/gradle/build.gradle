@@ -1,5 +1,5 @@
 plugins {
-    id 'com.gradle.build-scan' version '2.2.1'
+    id 'com.gradle.build-scan' version '2.3'
     id 'com.gradle.plugin-publish' version '0.10.1'
     id 'java-gradle-plugin'
 }
@@ -21,11 +21,11 @@ repositories {
 }
 
 dependencies {
-    compile 'io.quarkus:quarkus-bootstrap-core:999-SNAPSHOT'
-    compile 'io.quarkus:quarkus-devtools-common:999-SNAPSHOT'
-    compile 'io.quarkus:quarkus-devtools-common-core:999-SNAPSHOT'
-    compile 'io.quarkus:quarkus-development-mode:999-SNAPSHOT'
-    compile 'io.quarkus:quarkus-creator:999-SNAPSHOT'
+    compile "io.quarkus:quarkus-bootstrap-core:${version}"
+    compile "io.quarkus:quarkus-devtools-common:${version}"
+    compile "io.quarkus:quarkus-devtools-common-core:${version}"
+    compile "io.quarkus:quarkus-development-mode:${version}"
+    compile "io.quarkus:quarkus-creator:${version}"
 
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.4.1'
     testCompile 'org.junit.jupiter:junit-jupiter-params:5.4.1'
@@ -39,21 +39,8 @@ test {
     useJUnitPlatform()
 }
 
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
 javadoc {
     options.addStringOption('encoding', 'UTF-8')
-}
-task javadocJar(type: Jar) {
-    classifier = "javadoc"
-    from javadoc
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
 }
 
 gradlePlugin {
